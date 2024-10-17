@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: customclass
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: "false" # Set to true if this should be the default IngressClass
+spec:
+  controller: k8s.io/ingress-nginx # Specify the controller for this IngressClass
+  parameters:
+    apiGroup: k8s.io/networking
+    kind: IngressParameters
+    name: example

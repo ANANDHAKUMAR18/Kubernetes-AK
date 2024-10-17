@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testing-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-app
+  template:
+    metadata:
+      labels:
+        app: backend-app
+    spec:
+      containers:
+      - name: testing
+        image: dhubtesting/testing:flask
+        ports:
+        - containerPort: 8080

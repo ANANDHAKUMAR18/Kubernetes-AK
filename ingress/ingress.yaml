@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-ingress
+  annotations:
+    # nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/use-regrex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - sandhiyaanand.eastus.cloudapp.azure.com
+    secretName: wow-secret
+  rules:
+  - host: sandhiyaanand.eastus.cloudapp.azure.com
+    http:
+      paths:
+      - path: /anand
+        pathType: Prefix
+        backend:
+          service:
+            name: aks-helloworld-one
+            port:
+              number: 80
+      - path: /sandhiya
+        pathType: Prefix
+        backend:
+          service:
+            name: aks-helloworld-two
+            port:
+              number: 5000
+      - path: /(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: aks-helloworld-one
+            port:
+              number: 80
+

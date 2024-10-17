@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anand-ui
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: anand-ui
+  template:
+    metadata:
+      labels:
+        app: anand-ui
+    spec:
+      # nodeName: aks-agentpool-17790318-vmss000003
+      affinity:
+        nodeAffinity:
+          # requiredDuringSchedulingIgnoredDuringExecution:
+          #   nodeSelectorTerms:
+          #     -
+          preferredDuringSchedulingIgnoredDuringExecution:
+          -
+      containers:
+      - name: todo-ui
+        image: pavanelthepu/todo-ui:1.0.2
+        ports:
+        - containerPort: 80
+        env:
+        - name: "REACT_APP_BACKEND_SERVER_URL"
+          value: "https://todo.com/api"
+        resources:
+          requests:
+            cpu: 500m
+            memory: 400Mi
+          limits:
+            cpu: 1
+            memory: 1Gi
+
